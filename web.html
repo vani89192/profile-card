@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aurora Bites — Restaurant & Bookings</title>
+  <meta name="description" content="Aesthetic restaurant site with booking, blog, and review features (food + ambience)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220; /* slightly lighter */
+      --muted:#9aa6b2;
+      --accent-1:linear-gradient(135deg,#ffd6a5 0%, #ffb4a2 50%, #cba6f7 100%);
+      --accent-2:linear-gradient(135deg,#7bd389 0%, #9be7ff 100%);
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --radius:14px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(203,160,247,0.08), transparent),
+                  radial-gradient(1200px 600px at 90% 90%, rgba(155,231,255,0.04), transparent),
+                  var(--bg);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      scroll-behavior:smooth;
+      padding:32px;
+    }
+
+    .container{
+      max-width:1150px;
+      margin:0 auto;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      margin-bottom:28px;
+    }
+
+    .brand{
+      display:flex;align-items:center;gap:14px;
+    }
+    .logo{
+      height:56px;width:56px;border-radius:12px;background:var(--accent-1);
+      box-shadow:0 8px 30px rgba(203,160,247,0.12), inset 0 -6px 18px rgba(255,255,255,0.06);
+      display:grid;place-items:center;font-weight:700;color:#222;
+      font-family:Playfair Display, serif;
+      transform:translateZ(0);
+    }
+
+    nav{display:flex;gap:14px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:600}
+    nav a:hover{color:#fff;background:var(--glass)}
+
+    /* Hero */
+    .hero{
+      display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:start;margin-bottom:36px;
+    }
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:28px;border-radius:var(--radius);box-shadow:0 6px 40px rgba(2,6,23,0.6);
+      backdrop-filter: blur(8px);border:1px solid rgba(255,255,255,0.03);
+    }
+    .hero h1{font-family:Playfair Display, serif;font-size:34px;margin:0 0 6px}
+    .lead{color:var(--muted);margin:8px 0 18px}
+
+    .booking{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.025)
+    }
+    .field{display:flex;flex-direction:column;margin-bottom:12px}
+    label{font-size:13px;color:var(--muted);margin-bottom:6px}
+    input,select,textarea{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px 12px;border-radius:10px;color:#e6eef8}
+    input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 6px 24px rgba(0,0,0,0.6), 0 0 0 4px rgba(123,211,137,0.06)}
+    .btn{display:inline-block;padding:10px 14px;border-radius:12px;font-weight:700;border:none;cursor:pointer}
+    .btn-primary{background-image:var(--accent-1);color:#111;box-shadow:0 12px 30px rgba(203,160,247,0.12);}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+    /* Cards grid */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--card);padding:18px;border-radius:12px;border:1px solid var(--glass-2);box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+
+    /* Menu and Blog */
+    .section-title{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+    .section-title h2{margin:0;font-family:Playfair Display, serif}
+    .blog-list{display:flex;flex-direction:column;gap:12px}
+    .post{display:flex;gap:12px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
+    .post-thumbnail{width:120px;height:80px;border-radius:10px;background:linear-gradient(135deg,#ffd6a5,#ffb4a2);display:grid;place-items:center;color:#222;font-weight:700}
+    .post h3{margin:0;font-size:16px}
+    .post p{margin:6px 0 0;color:var(--muted);font-size:14px}
+
+    /* Reviews */
+    .reviews{display:flex;flex-direction:column;gap:12px}
+    .review{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
+    .stars{letter-spacing:4px;color:#ffd166}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;}
+      .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:640px){
+      .grid{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:flex-start}
+      nav{width:100%;overflow:auto}
+    }
+
+    /* small micro interactions */
+    .card, .post, .booking, .logo{transition:transform 350ms cubic-bezier(.2,.9,.28,1), box-shadow 350ms}
+    .card:hover, .post:hover, .booking:hover{transform:translateY(-6px)}
+
+    /* subtle reflection effect for hero image */
+    .hero-visual{position:relative;height:320px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#111827 0%, #08101a 100%);display:flex;align-items:center;justify-content:center}
+    .plate{width:260px;height:260px;border-radius:999px;background:linear-gradient(135deg,#ffd6a5,#ffb4a2);display:grid;place-items:center;font-family:Playfair Display;font-weight:700;color:#222;box-shadow:0 40px 80px rgba(0,0,0,0.6), inset 0 -10px 30px rgba(255,255,255,0.04)}
+    .plate::after{content:'';position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:180px;height:60px;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,0.08), rgba(255,255,255,0.02));filter:blur(18px);opacity:0.6}
+
+    .small{font-size:13px}
+
+    /* subtle entrance animations */
+    .reveal{opacity:0;transform:translateY(14px)}
+    .reveal.show{opacity:1;transform:none;transition:all 700ms cubic-bezier(.2,.9,.28,1)}
+
+    /* review input stars */
+    .rating{display:flex;gap:6px;align-items:center}
+    .rating input{display:none}
+    .rating label{cursor:pointer;font-size:18px}
+    .chip{display:inline-flex;gap:8px;align-items:center;padding:6px 8px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.02);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">AB</div>
+        <div>
+          <div style="font-weight:700">Aurora Bites</div>
+          <div style="font-size:12px;color:var(--muted)">Modern dining · Cozy ambience</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#book">Book Table</a>
+        <a href="#menu">Menu</a>
+        <a href="#blog">Blog</a>
+        <a href="#reviews">Reviews</a>
+        <a class="btn btn-ghost" href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-card reveal">
+          <h1>Reserve your table
+            <div style="font-size:14px;color:var(--muted);font-weight:500">— Experience food that glows</div>
+          </h1>
+          <p class="lead">Book a table or order in — read our blog, browse menu highlights, and leave reviews about food and ambience.</p>
+
+          <div id="book" class="booking">
+            <form id="bookingForm">
+              <div class="field">
+                <label for="name">Full name</label>
+                <input id="name" name="name" required placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label for="date">Date & time</label>
+                <input id="date" name="date" type="datetime-local" required />
+              </div>
+              <div class="field">
+                <label for="guests">Guests</label>
+                <select id="guests" name="guests">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5+</option>
+                </select>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+                <button class="btn btn-primary" type="submit">Reserve Table</button>
+                <button id="viewBookings" type="button" class="btn btn-ghost">View My Bookings</button>
+              </div>
+            </form>
+            <div id="bookingMsg" style="margin-top:12px;font-size:13px;color:var(--muted)"></div>
+          </div>
+
+          <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
+            <div class="chip">Open: Mon–Sun · 11am–11pm</div>
+            <div class="chip">Live music: Fri 8pm</div>
+            <div class="chip">Contact: +91 90000 00000</div>
+          </div>
+
+        </div>
+
+        <aside class="hero-visual reveal">
+          <div class="plate">Chef's Special</div>
+        </aside>
+      </section>
+
+      <section id="menu" class="grid reveal" style="margin-bottom:26px">
+        <div class="card">
+          <div class="section-title"><h2>Signature Dishes</h2><div class="small">Handpicked</div></div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:700">Smoky Eggplant Risotto</div>
+                <div style="color:var(--muted);font-size:13px">Creamy risotto with charred eggplant and parmesan</div>
+              </div>
+              <div style="font-weight:700">₹420</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:700">Citrus Glazed Salmon</div>
+                <div style="color:var(--muted);font-size:13px">Light, zesty glaze with fennel salad</div>
+              </div>
+              <div style="font-weight:700">₹640</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:700">Truffle & Mushroom Flatbread</div>
+                <div style="color:var(--muted);font-size:13px">Crisp flatbread with truffle oil</div>
+              </div>
+              <div style="font-weight:700">₹320</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title"><h2>Chef's Picks</h2><div class="small">Weekly Specials</div></div>
+          <ul style="margin:0;padding:0 16px;list-style:none;color:var(--muted)">
+            <li style="padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)">Prawn Laksa – ₹360</li>
+            <li style="padding:8px 0;border-bottom:1px dashed rgba(255,255,255,0.02)">Paneer Makhani Taco – ₹290</li>
+            <li style="padding:8px 0">Kaya Toast Dessert – ₹150</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="section-title"><h2>Reserve & Order</h2><div class="small">Quick actions</div></div>
+          <p style="color:var(--muted)">Reserve online and pre-order a tasting platter to be ready when you arrive.</p>
+          <div style="display:flex;gap:12px;margin-top:10px">
+            <button class="btn btn-primary" onclick="document.getElementById('bookingForm').scrollIntoView({behavior:'smooth'})">Reserve Now</button>
+            <button class="btn btn-ghost" onclick="alert('Pre-order feature coming soon!')">Pre-order</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="blog" class="reveal" style="margin-bottom:26px">
+        <div class="section-title"><h2>From Our Blog</h2><div class="small">Stories, recipes & behind-the-scenes</div></div>
+        <div class="blog-list" id="posts"></div>
+        <form id="newPostForm" style="margin-top:12px;display:flex;gap:8px;flex-direction:column;max-width:700px">
+          <input id="postTitle" placeholder="Post title" />
+          <textarea id="postExcerpt" rows="3" placeholder="Short excerpt"></textarea>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary" type="submit">Publish Post</button>
+            <button id="clearPosts" type="button" class="btn btn-ghost">Clear Posts</button>
+          </div>
+          <div style="color:var(--muted);font-size:13px">(Local demo only — posts saved in your browser)</div>
+        </form>
+      </section>
+
+      <section id="reviews" class="reveal" style="margin-bottom:26px">
+        <div class="section-title"><h2>Reviews</h2><div class="small">Food & Ambience</div></div>
+
+        <div style="display:flex;gap:18px;flex-wrap:wrap">
+          <div style="flex:1;min-width:320px" class="card">
+            <h3 style="margin-top:0">Share your experience</h3>
+            <form id="reviewForm">
+              <div class="field">
+                <label for="revName">Name</label>
+                <input id="revName" required placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label>Food rating</label>
+                <div class="rating" id="foodStars">
+                  <label data-value="1">★</label>
+                  <label data-value="2">★</label>
+                  <label data-value="3">★</label>
+                  <label data-value="4">★</label>
+                  <label data-value="5">★</label>
+                </div>
+              </div>
+              <div class="field">
+                <label>Ambience rating</label>
+                <div class="rating" id="ambStars">
+                  <label data-value="1">★</label>
+                  <label data-value="2">★</label>
+                  <label data-value="3">★</label>
+                  <label data-value="4">★</label>
+                  <label data-value="5">★</label>
+                </div>
+              </div>
+              <div class="field">
+                <label for="revText">Review</label>
+                <textarea id="revText" rows="3" placeholder="What did you like?"></textarea>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <button class="btn btn-primary" type="submit">Submit Review</button>
+                <button id="clearReviews" type="button" class="btn btn-ghost">Clear Reviews</button>
+              </div>
+            </form>
+          </div>
+
+          <div style="flex:1.4;min-width:320px" class="card">
+            <h3 style="margin-top:0">Guest Reviews</h3>
+            <div id="reviewsList" class="reviews" style="max-height:360px;overflow:auto;padding-right:6px"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="reveal card" style="padding:18px">
+        <div class="section-title"><h2>Contact</h2><div class="small">Find us</div></div>
+        <p style="margin:0;color:var(--muted)">Address: 88 Aurora Lane, Foodie City</p>
+        <p style="margin:0;color:var(--muted)">Email: hello@aurorabites.example</p>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // --- Utilities ---
+    const q = s => document.querySelector(s);
+    const qa = s => Array.from(document.querySelectorAll(s));
+
+    // --- Smooth reveal on scroll ---
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('show')});
+    },{threshold:0.12});
+    qa('.reveal').forEach(el=>io.observe(el));
+
+    // --- Bookings: store in localStorage for demo ---
+    const bookingForm = q('#bookingForm');
+    const bookingMsg = q('#bookingMsg');
+    bookingForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = q('#name').value.trim();
+      const datetime = q('#date').value;
+      const guests = q('#guests').value;
+      if(!name || !datetime) { bookingMsg.textContent='Please enter name and date/time.'; return }
+      const booking = {id:Date.now(), name, datetime, guests};
+      const all = JSON.parse(localStorage.getItem('aurora_bookings')||'[]');
+      all.push(booking); localStorage.setItem('aurora_bookings', JSON.stringify(all));
+      bookingMsg.textContent = `Thanks ${name}! Your table for ${guests} is reserved on ${new Date(datetime).toLocaleString()}.`;
+      bookingForm.reset();
+    });
+    q('#viewBookings').addEventListener('click', ()=>{
+      const all = JSON.parse(localStorage.getItem('aurora_bookings')||'[]');
+      if(!all.length) return alert('You have no bookings yet.');
+      const list = all.map(b=>`• ${b.name} — ${new Date(b.datetime).toLocaleString()} (${b.guests})`).join('\n');
+      alert('Your bookings:\n\n'+list);
+    });
+
+    // --- Blog posts (local demo) ---
+    const postsEl = q('#posts');
+    const newPostForm = q('#newPostForm');
+    function renderPosts(){
+      const posts = JSON.parse(localStorage.getItem('aurora_posts')||'[]');
+      postsEl.innerHTML = posts.map(p=>`
+        <div class=\"post\"> 
+          <div class=\"post-thumbnail\">${(p.title||'Post').split(' ').slice(0,2).map(w=>w[0]).join('')}</div>
+          <div>
+            <h3>${escapeHtml(p.title)}</h3>
+            <p>${escapeHtml(p.excerpt)}</p>
+          </div>
+        </div>
+      `).join('') || '<div style="color:var(--muted)">No blog posts yet — write something tasty!</div>';
+    }
+    newPostForm.addEventListener('submit', e=>{
+      e.preventDefault();
+      const title = q('#postTitle').value.trim();
+      const excerpt = q('#postExcerpt').value.trim();
+      if(!title || !excerpt) return alert('Please add a title and excerpt');
+      const posts = JSON.parse(localStorage.getItem('aurora_posts')||'[]');
+      posts.unshift({id:Date.now(), title, excerpt});
+      localStorage.setItem('aurora_posts', JSON.stringify(posts));
+      q('#postTitle').value=''; q('#postExcerpt').value=''; renderPosts();
+    });
+    q('#clearPosts').addEventListener('click', ()=>{ if(confirm('Clear all demo posts?')) { localStorage.removeItem('aurora_posts'); renderPosts(); } });
+
+    // --- Reviews: ratings for food and ambience ---
+    const reviewsList = q('#reviewsList');
+    function renderReviews(){
+      const revs = JSON.parse(localStorage.getItem('aurora_reviews')||'[]');
+      if(!revs.length){ reviewsList.innerHTML = '<div style="color:var(--muted)">No reviews yet — be the first!</div>'; return }
+      reviewsList.innerHTML = revs.map(r=>`
+        <div class=\"review\">
+          <div style=\"display:flex;justify-content:space-between;align-items:center\">
+            <div style=\"font-weight:700\">${escapeHtml(r.name)}</div>
+            <div class=\"small\">${new Date(r.time).toLocaleString()}</div>
+          </div>
+          <div style=\"display:flex;gap:12px;align-items:center;margin:8px 0\">
+            <div class=\"chip\">Food: ${'★'.repeat(r.food)+ '☆'.repeat(5-r.food)}</div>
+            <div class=\"chip\">Ambience: ${'★'.repeat(r.amb)+ '☆'.repeat(5-r.amb)}</div>
+          </div>
+          <div style=\"color:var(--muted)\">${escapeHtml(r.text||'—')}</div>
+        </div>
+      `).join('');
+    }
+    // rating pickers (simple)
+    function attachRating(id, store){
+      const root = q(id);
+      root.addEventListener('click', e=>{
+        if(e.target.tagName !== 'LABEL') return;
+        const value = Number(e.target.dataset.value||0);
+        root.querySelectorAll('label').forEach((lab,i)=> lab.style.color = (i<value)?'#ffd166': 'var(--muted)');
+        root.dataset.value = value;
+      });
+      // init: set default to 4
+      root.dataset.value = 4;
+      root.querySelectorAll('label').forEach((lab,i)=> lab.style.color = (i<4)?'#ffd166':'var(--muted)');
+    }
+    attachRating('#foodStars'); attachRating('#ambStars');
+
+    q('#reviewForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      const name = q('#revName').value.trim();
+      const food = Number(q('#foodStars').dataset.value||4);
+      const amb = Number(q('#ambStars').dataset.value||4);
+      const text = q('#revText').value.trim();
+      if(!name) return alert('Please provide your name');
+      const revs = JSON.parse(localStorage.getItem('aurora_reviews')||'[]');
+      revs.unshift({id:Date.now(), name, food, amb, text, time:Date.now()});
+      localStorage.setItem('aurora_reviews', JSON.stringify(revs));
+      q('#revName').value=''; q('#revText').value=''; renderReviews();
+    });
+    q('#clearReviews').addEventListener('click', ()=>{ if(confirm('Clear all demo reviews?')){ localStorage.removeItem('aurora_reviews'); renderReviews(); } });
+
+    // helper: simple escaping
+    function escapeHtml(unsafe){ return (unsafe||'').replace(/[&<>"']/g, function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#039;"}[m];}); }
+
+    // initial demo content
+    (function initDemo(){
+      if(!localStorage.getItem('aurora_posts')){
+        const demoPosts = [
+          {id:1,title:'5 Ways We Infuse Citrus Into Our Menu',excerpt:'Bright flavors that lift the palate and pair perfectly with evening cocktails.'},
+          {id:2,title:'Behind the Scenes: How We Roast',excerpt:'A peek into our kitchen and how we choose local produce.'}
+        ];
+        localStorage.setItem('aurora_posts', JSON.stringify(demoPosts));
+      }
+      if(!localStorage.getItem('aurora_reviews')){
+        const demoReviews = [
+          {id:1,name:'Asha',food:5,amb:4,text:'Loved the salmon — tender and zesty!',time:Date.now()-86400000},
+          {id:2,name:'Rohan',food:4,amb:5,text:'Cozy lighting and great playlist. Perfect date spot.',time:Date.now()-3600000}
+        ];
+        localStorage.setItem('aurora_reviews', JSON.stringify(demoReviews));
+      }
+      renderPosts(); renderReviews();
+    })();
+
+    // Extra: keyboard accessibility — pressing "b" opens bookings (demo)
+    window.addEventListener('keydown', e=>{ if(e.key === 'b') q('#name').focus(); });
+
+    // Small UX nicety: animated micro-interaction on logo click
+    q('.logo').addEventListener('click', ()=>{
+      const l = q('.logo'); l.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:420,easing:'ease-out'});
+    });
+  </script>
+</body>
+</html>

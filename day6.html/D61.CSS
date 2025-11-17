@@ -1,0 +1,12 @@
+.outer{
+    width:300px;
+    height:150px;
+    background: blueviolet;
+    position: static;
+}
+.inner{
+    width:300px;
+    height:150px;
+    background:red;
+    position: static;
+}

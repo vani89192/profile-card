@@ -1,0 +1,61 @@
+header{
+    border: 3px solid black;
+    padding: 5px;
+    text-align: center;
+    background-color: lightgray;
+}
+body{
+    background-color: lightcoral;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.container{
+    width: 100%;
+    margin: 40px auto;
+    margin-top: 20px;
+    border: 2px solid black;
+    border-collapse: collapse ;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    box-shadow: 3px 3px 10px gray;
+}
+th,td{
+    border: 2px solid black;
+    padding: 20px;
+    text-align: center;
+}
+th:nth-child(1){
+    border-color:red;
+}
+th:nth-child(2){
+    border-color:  blue;
+}
+th:nth-child(3){
+    border-color: green;
+}
+/* th:nth-child(4){
+    border-color:;
+} */
+ tr:nth-child(even){
+    background-color: rgba(166, 64, 5, 0.351);
+ }
+ tr:nth-child(odd){
+    background-color: rgb(226, 101, 6);
+ }
+ .my-button{
+    background-color: rgb(36, 213, 81);
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    display: block;
+ }
+ .my-button:hover{
+    background-color: rgb(5, 68, 5);
+    color: aliceblue;
+ }
+ p{
+    text-align: justify;
+    color: darkgrey;
+    border: 2px solid black ;
+    padding: 10px;
+    margin: 20px;
+ }
